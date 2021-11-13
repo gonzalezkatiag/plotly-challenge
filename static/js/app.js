@@ -1,7 +1,3 @@
-/* Declaring strict mode to write cleaner code */
-"use strict";
-
-///////// Declare Global Variables \\\\\\\\\\
 var jsonPromise;
 var data;
 var IDs;
@@ -13,27 +9,24 @@ var shortURL = "samples.json";
 var longURL = "https://gonzalezkatiag.github.io/plotly-challenge/samples.json";
 var demo;
 var traceData;
-var colorscale = "Blackbody";
+var colorscale = "Picnic";
 var config = {responsive: true};
 
-///////// Define Functions \\\\\\\\\\
-
-/* function getData(): retrieves the data from JSON file */
 function getData(){
-  // If initial load of page, fetch promise and assign to jsonPromise
+
   if(jsonPromise === undefined){
-    console.log("***Initial Data Load***");
-    // if running app from server, use local url, else use full url
+    console.log("*Initial Data Load*");
+
     if (window.location.href[0] !="f"){
       url = shortURL;
     } else {
       url = longURL;
     }
-    console.log(`Promise Sent`)
+    console.log(`Sent`)
     jsonPromise = d3.json(url);
-    console.log(`Promise Fulfilled!`);
+    console.log(`Fulfilled!`);
     return  jsonPromise.then(function(json){
-      // Use jsonPromise to initialize declared arrays.
+   
       IDs = json.names;
       metaData = json.metadata;
       samples = json.samples;
@@ -42,7 +35,7 @@ function getData(){
         metaData:metaData,
         samples:samples
       };
-      console.log("Data Retrieved:",data);
+      console.log("Data Retrieve:",data);
       return data;
     }).then(function(){
       demo = [
@@ -58,7 +51,6 @@ function getData(){
   }
 }
 
-/* function listIDs(idArray): populates dropdown with Test Subject IDs */
 function listIDs(idArray){
   d3.select('select')
       .selectAll('option')
@@ -70,13 +62,13 @@ function listIDs(idArray){
       });
   console.log(`Dropdown Entries Added: ${idArray.length}`);
 }
-/* function optionChanged(varID): creates/updates visualizations based on selected Test Subject ID */
+
 function optionChanged(varID){
   let ind = IDs.indexOf(varID);
 
   // Demographics
   {
-    d3.select("#demo-info").selectAll("span").remove();
+    d3.select("#Demo Info").selectAll("Span").remove();
     var col;
     var demVals = [];
     demo.forEach((item,i)=>{
@@ -114,17 +106,17 @@ function optionChanged(varID){
       yaxis: {
         automargin: true,
         title: {
-          text: 'Top OTUs Found',
+          text: 'Top 10 OTUs Found',
           standoff: 20
         }
       },
       margin: {
         t: 40,
-        pad: 5
+        pad: 10
       }
     };
     let color = reversedData.map(object => object.intID);
-    console.log(`Bar Chart Top OTUs: ${color}`);
+    console.log(`Bar Chart Top 10 OTUs: ${color}`);
     let trace1 = {
       x: reversedData.map(object => object.value),
       y: reversedData.map(object => object.id),
@@ -133,7 +125,7 @@ function optionChanged(varID){
       
       marker: {
         color: 
-        `#4d4d4d`,
+        `cadetblue`,
       },
       type: "bar",
       orientation: "h"
@@ -141,9 +133,10 @@ function optionChanged(varID){
     traceData = [trace1];
     Plotly.newPlot("bar",traceData, layoutBar, config);
   }
+  
   // Bubble Chart
   {
-    var desired_maximum_marker_size = 100;
+    var desired_maximum_marker_size = 150;
     var sample2 = [];
     var each;
     var bubbleData = samples[ind];
@@ -178,21 +171,18 @@ function optionChanged(varID){
     }
     traceData = [trace2];
     let layoutBubble = {
-      title: `All OTUs Found in Participant ${varID}`,
+      title: `OTUs Found in Participant ${varID}`,
       xaxis: {
         title: {
-          text: 'OTU ID #',
+          text: 'OTU ID',
         }
       },
-      yaxis: {
-        title: {
-          text: 'Relative Abundance of OTU',
-        }
-      }
+      
     };
     
     Plotly.newPlot("bubble",traceData,layoutBubble, config);
   }
+
   // Gauge Chart
   {
     var wFVal = metaData[ind].wfreq;
@@ -201,7 +191,7 @@ function optionChanged(varID){
         
         domain: { x: [0, 1], y: [0, 1] },
         value: wFVal,
-        title: { text: `Weekly Wash Frequency`},
+        title: { text: `Weekly Washing Frequency`},
         type: "indicator",
         mode: "gauge+number",
         gauge: {
@@ -211,7 +201,7 @@ function optionChanged(varID){
             dtick: 1
           },
           bar: {
-            color: "#a0c8ff",
+            color: "burlywood",
           }
         }
         
@@ -220,19 +210,18 @@ function optionChanged(varID){
     
     var layoutGauge = {
       margin: {
-        l: 15,
-        r: 15,
-        b: 15,
+        l: 10,
+        r: 10,
+        b: 10,
         t: 0,
         pad: 10
       }
     };
-    console.log(`Wash Freq: ${wFVal}`)
+    console.log(`Washing Freq: ${wFVal}`)
     Plotly.newPlot('gauge', data, layoutGauge, config);
   }
 }
 
-///////// Execute Functions \\\\\\\\\\
 getData().then(function(){
   listIDs(IDs);
 }).then(function(){
@@ -240,7 +229,7 @@ getData().then(function(){
   console.log("Initial Participant:", specifiedID);
   optionChanged(specifiedID);
 }).then(function(){
-  console.log("***Initial Data Load Complete***");
+  console.log("*Initial Data Load Complete*");
 });
 d3.select("#selDataset").on("change", function(){
   console.log("*Participant Changed to: ",this.value);

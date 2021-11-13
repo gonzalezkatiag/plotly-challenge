@@ -1,5 +1,5 @@
 .btn{
-    font-size: 14px;
+    font-size: 20px;
 }
 
 .chooser{
@@ -12,7 +12,7 @@
 }
 
 .vl {
-    border-left: 2px solid #e0e0e0;
+    border-left: 2px solid hsl(0, 38%, 66%);
 }
 .demo-title{
     font-size: 20px;
