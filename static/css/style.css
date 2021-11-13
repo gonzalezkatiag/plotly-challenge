@@ -1,0 +1,52 @@
+.btn{
+    font-size: 14px;
+}
+
+.chooser{
+    top: 0%;
+    padding-left: 0px;
+    font-size: 20px;
+}
+#selDataset{
+    font-size:16px;
+}
+
+.vl {
+    border-left: 2px solid #e0e0e0;
+}
+.demo-title{
+    font-size: 20px;
+}
+.demo-col-1{
+    margin-left: 15px;
+}
+.demo-col-6{
+    margin-left: 15px;
+}
+#demo-info div{
+    padding-left: 0px;
+    font-size: 16px;
+    font-weight: bold;
+}
+#demo-info span{
+    font-weight: normal;
+}
+@media (max-width: 767.98px) { 
+    .vl{
+        border-left: 0px;
+        padding-left: 0px;
+    }
+    .demo-col-1{
+        margin-left: 0px;
+    }
+    .demo-col-6{
+        margin-left: 0px;
+    }
+    #demo-info div{
+        padding-left: 20px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+ }
+ 
